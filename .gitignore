@@ -7,3 +7,4 @@
 .vscode
 node_modules
 dist
+Thumbs.db

@@ -4,6 +4,7 @@ import path from "path";
 import EmbeddingRetriever from "./EmbeddingRetriever";
 import fs from "fs";
 import { logTitle } from "./utils";
+import { OpenAI } from "openai";
 
 const URL = 'https://news.ycombinator.com/'
 const outPath = path.join(process.cwd(), 'output');
@@ -13,14 +14,14 @@ const TASK = `
 `
 
 const fetchMCP = new MCPClient("mcp-server-fetch", "uvx", ['mcp-server-fetch']);
-const fileMCP = new MCPClient("mcp-server-file", "npx", ['-y', '@modelcontextprotocol/server-filesystem', outPath]);
+const fileMCP = new MCPClient("mcp-server-file", "npx", ['@modelcontextprotocol/server-filesystem', outPath]);
 
 async function main() {
     // RAG
     const context = await retrieveContext();
 
     // Agent
-    const agent = new Agent('openai/gpt-4o-mini', [fetchMCP, fileMCP], '', context);
+    const agent = new Agent('deepseek-chat', [fetchMCP, fileMCP], '', context);
     await agent.init();
     await agent.invoke(TASK);
     await agent.close();

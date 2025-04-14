@@ -36,12 +36,17 @@ export default class MCPClient {
 
     private async connectToServer() {
         try {
+            console.log(`Attempting to connect to MCP server with command: ${this.command} ${this.args.join(' ')}`);
             this.transport = new StdioClientTransport({
                 command: this.command,
                 args: this.args,
             });
+            
+            console.log('Transport created, attempting to connect...');
             await this.mcp.connect(this.transport);
+            console.log('Successfully connected to MCP server');
 
+            console.log('Fetching available tools...');
             const toolsResult = await this.mcp.listTools();
             this.tools = toolsResult.tools.map((tool) => {
                 return {
@@ -55,7 +60,14 @@ export default class MCPClient {
                 this.tools.map(({ name }) => name)
             );
         } catch (e) {
-            console.log("Failed to connect to MCP server: ", e);
+            console.error("Failed to connect to MCP server: ", e);
+            if (e instanceof Error) {
+                console.error("Error details:", {
+                    message: e.message,
+                    stack: e.stack,
+                    ...(e as any).data
+                });
+            }
             throw e;
         }
     }

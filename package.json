@@ -15,6 +15,7 @@
   "packageManager": "pnpm@10.6.3",
   "devDependencies": {
     "@types/node": "^22.13.11",
+    "esbuild": "^0.20.2",
     "ts-node": "^10.9.2",
     "tsx": "^4.19.3",
     "typescript": "^5.8.2"
@@ -26,6 +27,7 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.8.0",
+    "@modelcontextprotocol/server-filesystem": "^2025.3.28",
     "chalk": "^5.4.1",
     "dotenv": "^16.4.7",
     "openai": "^4.91.1",
